@@ -1,0 +1,532 @@
+.header {
+  background: var(--surface-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 2px 20px rgba(0, 102, 204, 0.05);
+}
+
+.header.scrolled {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(var(--surface-color-rgb, 255, 255, 255), 0.95);
+}
+
+[data-theme="dark"] .header.scrolled {
+  background: rgba(30, 30, 30, 0.95);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Logo */
+.logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.logo a:hover {
+  transform: translateY(-2px);
+}
+
+.logoIcon {
+  font-size: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logoTagline {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ctaButton {
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-light-blue));
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+}
+
+/* Mobile Navigation Toggle */
+.mobileNavToggle {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobileThemeToggle {
+  display: none;
+}
+
+/* Hamburger Button */
+.hamburger {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  z-index: var(--z-modal);
+}
+
+.hamburgerLine {
+  display: block;
+  height: 2px;
+  width: 24px;
+  background: var(--text-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+  position: absolute;
+}
+
+.hamburgerLine:nth-child(1) {
+  transform: translateY(-8px);
+}
+
+.hamburgerLine:nth-child(2) {
+  opacity: 1;
+}
+
+.hamburgerLine:nth-child(3) {
+  transform: translateY(8px);
+}
+
+.closeIcon {
+  position: absolute;
+  font-size: 2rem;
+  color: var(--text-color);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+/* Open state */
+.hamburger.open .hamburgerLine:nth-child(1) {
+  transform: rotate(45deg) translate(0, 0);
+}
+
+.hamburger.open .hamburgerLine:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger.open .hamburgerLine:nth-child(3) {
+  transform: rotate(-45deg) translate(0, 0);
+}
+
+.hamburger.open .closeIcon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mobile Menu Overlay */
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: var(--z-modal-backdrop);
+}
+
+.mobileMenuOverlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background: var(--surface-color);
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mobileMenu.open {
+  right: 0;
+}
+
+/* Mobile Menu Header */
+.mobileMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobileLogoIcon {
+  font-size: 1.8rem;
+}
+
+.mobileLogoText {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mobileCloseButton {
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.mobileCloseButton:hover {
+  background: rgba(0, 102, 204, 0.1);
+  color: var(--primary-blue);
+  transform: rotate(90deg);
+}
+
+/* Mobile Menu Content */
+.mobileMenuContent {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobileNavLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileNavLink:hover {
+  background: rgba(0, 102, 204, 0.1);
+  color: var(--primary-blue);
+  transform: translateX(5px);
+}
+
+.mobileNavLink.active {
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-light-blue));
+  color: white;
+}
+
+.mobileNavArrow {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.mobileNavLink:hover .mobileNavArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Mobile Actions */
+.mobileActions {
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mobileCtaButton {
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-light-blue));
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobileCtaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+}
+
+.buttonArrow {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.mobileCtaButton:hover .buttonArrow {
+  transform: translateX(5px);
+}
+
+/* Mobile Contact */
+.mobileContact {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 102, 204, 0.05);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.contactItem:hover {
+  transform: translateX(5px);
+}
+
+.contactIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contactLabel {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.contactNumber,
+.contactEmail {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactNumber:hover,
+.contactEmail:hover {
+  color: var(--primary-light-blue);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .logoTagline {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+  
+  .mobileNavToggle {
+    display: flex;
+  }
+  
+  .mobileThemeToggle {
+    display: block;
+  }
+  
+  .headerActions {
+    display: none;
+  }
+  
+  .container {
+    padding: 0.75rem 1rem;
+  }
+  
+  .logoText {
+    font-size: 1.3rem;
+  }
+  
+  .logoIcon {
+    font-size: 1.8rem;
+  }
+  
+  .mobileMenu {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    font-size: 1.2rem;
+  }
+  
+  .logoIcon {
+    font-size: 1.6rem;
+  }
+  
+  .mobileMenu {
+    max-width: 280px;
+  }
+  
+  .mobileMenuContent {
+    padding: 1rem;
+  }
+  
+  .mobileNavLink {
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .mobileMenu {
+    max-width: 100%;
+  }
+  
+  .mobileMenuOverlay {
+    background: var(--surface-color);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Smooth transitions for theme changes */
+.logoText,
+.mobileLogoText {
+  transition: all 0.3s ease;
+}
+
+/* Focus styles for accessibility */
+.hamburger:focus-visible,
+.mobileCloseButton:focus-visible,
+.mobileNavLink:focus-visible,
+.mobileCtaButton:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar for mobile menu */
+.mobileMenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobileMenu::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+.mobileMenu::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.mobileMenu::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-gray);
+}
